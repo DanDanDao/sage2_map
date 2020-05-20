@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Route, BrowserRouter } from "react-router-dom";
 import { SAGE2App, useSAGE2AppStateValue } from "./useSAGE2AppState";
 
 // import logo from './logo.svg';
@@ -14,12 +14,12 @@ class App extends Component {
     return (
       <SAGE2App
         initialState={{
-          count: 0,
+          zoom: 0,
         }}
       >
-        {/* <ComponentUsingState /> */}
+        <ZoomUsingState />
         <BrowserRouter basename={window.location.pathname || ''}>
-          <Route exact path="/" component={Map} />
+          <Route exact path="/" component={() => <Map zoom={this.props.zoom} />} />
           <Route path="/debug" component={Debug} />
         </BrowserRouter>
       </SAGE2App>
@@ -27,14 +27,17 @@ class App extends Component {
   }
 }
 
-function ComponentUsingState() {
-  let [count, setCount] = useSAGE2AppStateValue("count");
+function ZoomUsingState() {
+  let [zoom, setCount] = useSAGE2AppStateValue("zoom");
 
-  console.log("app state", count);
+  console.log("app state", zoom);
+  // var styles = '#zoom-block { position: absolute }';
 
   return (
-    <div>
-      Count: {count} <button onClick={() => setCount(count + 1)}>++</button>
+    <div id="zoom-block">
+      Zoom: {zoom}
+      <button onClick={() => setCount(zoom + 1)}>+</button>
+      <button onClick={() => setCount(zoom - 1)}>-</button>
     </div>
   );
 }

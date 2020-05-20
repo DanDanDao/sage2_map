@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {Map as LeafletMap, LayerGroup, TileLayer, Marker, Popup, Tooltip, Polyline} from 'react-leaflet';
+import { Map as LeafletMap, LayerGroup, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import Control from 'react-leaflet-control';
+import { useSAGE2AppStateValue } from "../../useSAGE2AppState";
 
 import './Map.css';
 
@@ -237,6 +238,10 @@ export default class Map extends Component {
         initialiseRefreshRate();
         setInterval(this.refreshPage, 10000);
     }
+    
+    setZoom() {
+        this.mapRef.current.props.zoom = 10
+    }
 
     constructor(props) {
         super(props);
@@ -256,9 +261,14 @@ export default class Map extends Component {
             runs: []
         };
 
+
         this.handleZoom = this.handleZoom.bind(this);
         this.updateData = this.updateData.bind(this);
         this.refreshPage = this.refreshPage.bind(this);
+        this.setZoom = this.setZoom.bind(this);
+
+        this.zoomOut = () => this.setState({zoom: this.state.zoom-1})
+        this.zoomIn = () => this.setState({zoom: this.state.zoom+1})
 
         showScheduledRuns = showScheduledRuns.bind(this);
         updateRefresh = updateRefresh.bind(this);
@@ -281,11 +291,23 @@ export default class Map extends Component {
                         { !isNaN(punctuality) && <span id="punctualityLabel"><small>Punctuality: </small><span id="bold">{punctuality.toFixed(2)}</span> %</span> }
                         
                     </Control>
+                    {/* < Popup >
+                        <span >
+                            <button onClick={this.zoomOut}>
+                            Zoom out
+                            </button>
+                            < button onClick = {this.zoomIn} >
+                            Zoom in
+                            </button>
+                        </span>
+                    </Popup > */}
                     <Control position="bottomleft">
                         <div id="disruptionsContainer">
                             Disruptions container
                         </div>
                         <div id="controlPanel">
+                        <button onClick={ this.zoomIn } className="control">Zoom in</button><br/>
+                        <button onClick={ this.zoomOut } className="control">Zoom out</button><br/>
                         <button onClick={ getDisruptions } className="control">Show Disruptions</button><br/>
                         <button onClick={ swapRouteType } className="control">Switch Transport Type &#8693;</button><br/>
                         <button onClick={ showScheduledRuns } className="control" id="toggleScheduledRuns">Scheduled Runs</button>
@@ -297,7 +319,6 @@ export default class Map extends Component {
                     </Control>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                         url='https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2lhdzk2IiwiYSI6ImNqdHRra3FuNDFjeW00MHBjMnNveGdha2QifQ.HK8K4aseYwzjdqAStXAyxg'
                     />
 
