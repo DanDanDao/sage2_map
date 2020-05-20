@@ -275,7 +275,7 @@ export default class Map extends Component {
 
         return (
             <div id='transport'>
-                <LeafletMap id="map" ref={this.mapRef} center={position} zoom={this.state.zoom} maxZoom={17} onZoomEnd={this.handleZoom}>
+                <LeafletMap id="map" ref={this.mapRef} scrollWheelZoom={false} center={position} zoom={this.state.zoom} maxZoom={17} onZoomEnd={this.handleZoom}>
                     <Control position="topright">
                         {/* Render punctuality when there is data */}
                         { !isNaN(punctuality) && <span id="punctualityLabel"><small>Punctuality: </small><span id="bold">{punctuality.toFixed(2)}</span> %</span> }
