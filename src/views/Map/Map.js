@@ -238,9 +238,24 @@ export default class Map extends Component {
         initialiseRefreshRate();
         setInterval(this.refreshPage, 10000);
     }
-    
-    setZoom() {
-        this.mapRef.current.props.zoom = 10
+
+    getZoom() {
+        return this.mapRef.current.props.zoom
+    }
+
+    handleMove(e) {
+        this.setState({ zoom: e.currZoom });
+        console.log(e.target._zoom)
+        var ctr = e.target.getCenter()
+        console.log(ctr)
+        // this.mapRef.current.leafletElement.panTo(ctr);
+
+        // console.log(e)
+        console.log(this.mapRef.current.leafletElement)
+        // this.mapRef.current.leafletElement.setZoom(0)
+        // this.mapRef.current.leafletElement._renderer._center = {lat: -37.89842688615329, lng: 144.97884750366214}
+        // this.mapRef.current.leafletElement._zoom = 10
+        // console.log()
     }
 
     constructor(props) {
@@ -258,17 +273,21 @@ export default class Map extends Component {
             zoom: 13,
             routes: [],
             stationDepartures: [],
-            runs: []
+            runs: [],
+            currentPos: null,
+            position: [-37.78292608704407, 144.9658012390137]
         };
 
-
+        this.handleMove = this.handleMove.bind(this);
         this.handleZoom = this.handleZoom.bind(this);
         this.updateData = this.updateData.bind(this);
         this.refreshPage = this.refreshPage.bind(this);
-        this.setZoom = this.setZoom.bind(this);
+        this.getZoom = this.getZoom.bind(this);
 
         this.zoomOut = () => this.setState({zoom: this.state.zoom-1})
         this.zoomIn = () => this.setState({zoom: this.state.zoom+1})
+
+        this.reCenter = () => this.setState({position: [-37.78292608704407, 144.9658012390137]})
 
         showScheduledRuns = showScheduledRuns.bind(this);
         updateRefresh = updateRefresh.bind(this);
@@ -283,31 +302,36 @@ export default class Map extends Component {
         const runs = this.state.runs;
         const punctuality = this.calculatePunctuality();
 
+        var divStyle = {
+            height: '200px', 
+            width: '400px',
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            marginTop: '-100px',
+            zIndex: '1000',
+            marginLeft: '-200px'
+        }
+
+        var pStyle = {
+            fontSize: '100px'
+        }
+
         return (
             <div id='transport'>
-                <LeafletMap id="map" ref={this.mapRef} scrollWheelZoom={false} center={position} zoom={this.state.zoom} maxZoom={17} onZoomEnd={this.handleZoom}>
+                <div style={divStyle}>
+                    <p style={pStyle}>{this.props.zoom}</p>
+                </div>
+                <LeafletMap id="map" ref={this.mapRef} scrollWheelZoom={false} center={this.props.center} zoom={this.props.zoom} maxZoom={17} onZoomEnd={this.handleZoom} onmoveend={this.handleMove}>
                     <Control position="topright">
                         {/* Render punctuality when there is data */}
                         { !isNaN(punctuality) && <span id="punctualityLabel"><small>Punctuality: </small><span id="bold">{punctuality.toFixed(2)}</span> %</span> }
-                        
                     </Control>
-                    {/* < Popup >
-                        <span >
-                            <button onClick={this.zoomOut}>
-                            Zoom out
-                            </button>
-                            < button onClick = {this.zoomIn} >
-                            Zoom in
-                            </button>
-                        </span>
-                    </Popup > */}
                     <Control position="bottomleft">
-                        <div id="disruptionsContainer">
-                            Disruptions container
-                        </div>
                         <div id="controlPanel">
-                        <button onClick={ this.zoomIn } className="control">Zoom in</button><br/>
-                        <button onClick={ this.zoomOut } className="control">Zoom out</button><br/>
+                        {/* <button onClick={ this.zoomIn } className="control">Zoom in</button><br/> */}
+                        {/* <button onClick={ this.reCenter } className="control">Center</button><br/> */}
+                        <button onClick={() => { console.log(this.mapRef.current.leafletElement.panTo(this.mapRef.current.leafletElement.options.center)) } } className="control">Center</button><br/>
                         <button onClick={ getDisruptions } className="control">Show Disruptions</button><br/>
                         <button onClick={ swapRouteType } className="control">Switch Transport Type &#8693;</button><br/>
                         <button onClick={ showScheduledRuns } className="control" id="toggleScheduledRuns">Scheduled Runs</button>
@@ -317,11 +341,15 @@ export default class Map extends Component {
                         </div>
                         </div>
                     </Control>
+                    {/* { this.state.currentPos && <Marker position={this.state.currentPos} draggable={true}>
+                        <Popup position={this.state.currentPos}>
+                        Current location: <pre>{}</pre>
+                        </Popup>
+                    </Marker>} */}
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url='https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2lhdzk2IiwiYSI6ImNqdHRra3FuNDFjeW00MHBjMnNveGdha2QifQ.HK8K4aseYwzjdqAStXAyxg'
                     />
-
                     <MarkerClusterGroup maxClusterRadius={10} ref={this.trainRef}>
                         {
                             runs.map((key, index) => {
