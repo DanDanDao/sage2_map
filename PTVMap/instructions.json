@@ -1,0 +1,23 @@
+{
+	"main_script": "PTVMap.js",
+	"icon": "skeletonWebviewApp.png",
+	"width": 1280,
+	"height": 720,
+	"resize": "free",
+	"animation": false,
+	"dependencies": [
+		"WebviewAppCore.js"
+	],
+	"load": {
+		"url": "/uploads/web/index.html",
+		"favicon": "",
+		"zoom": 1,
+		"mode": "desktop"
+	},
+	"title": "PTVMap",
+	"version": "0.1",
+	"description": "SAGE2 application PTVMap",
+	"keywords": [ "sage2", "PTVMap" ],
+	"author": "Daniel Dao <guangdanny@gmail.com>",
+	"license": "SAGE2-Software-License"
+}

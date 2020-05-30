@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "./static/css/main.0816d436.chunk.css",
+    "main.js": "./static/js/main.d0d0d071.chunk.js",
+    "main.js.map": "./static/js/main.d0d0d071.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.552f2aa1.js",
+    "runtime-main.js.map": "./static/js/runtime-main.552f2aa1.js.map",
+    "static/css/2.0161871a.chunk.css": "./static/css/2.0161871a.chunk.css",
+    "static/js/2.8bfddca1.chunk.js": "./static/js/2.8bfddca1.chunk.js",
+    "static/js/2.8bfddca1.chunk.js.map": "./static/js/2.8bfddca1.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.b12b204b5ca97c8f60d1773715bb1074.js": "./precache-manifest.b12b204b5ca97c8f60d1773715bb1074.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/2.0161871a.chunk.css.map": "./static/css/2.0161871a.chunk.css.map",
+    "static/css/main.0816d436.chunk.css.map": "./static/css/main.0816d436.chunk.css.map",
+    "static/js/2.8bfddca1.chunk.js.LICENSE.txt": "./static/js/2.8bfddca1.chunk.js.LICENSE.txt",
+    "static/media/rail2.svg": "./static/media/rail2.ed9c2746.svg",
+    "static/media/train.png": "./static/media/train.db47e899.png",
+    "static/media/train_side.svg": "./static/media/train_side.d63cb63b.svg",
+    "static/media/train_side_delayed.svg": "./static/media/train_side_delayed.bc281abc.svg",
+    "static/media/train_side_inverted.svg": "./static/media/train_side_inverted.1d219bf8.svg",
+    "static/media/train_side_inverted_delayed.svg": "./static/media/train_side_inverted_delayed.0d7c9d90.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.552f2aa1.js",
+    "static/css/2.0161871a.chunk.css",
+    "static/js/2.8bfddca1.chunk.js",
+    "static/css/main.0816d436.chunk.css",
+    "static/js/main.d0d0d071.chunk.js"
+  ]
+}
