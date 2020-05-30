@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Map as LeafletMap, LayerGroup, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import Control from 'react-leaflet-control';
-import { useSAGE2AppStateValue } from "../../useSAGE2AppState";
 
 import './Map.css';
 
@@ -329,8 +328,6 @@ export default class Map extends Component {
                     </Control>
                     <Control position="bottomleft">
                         <div id="controlPanel">
-                        {/* <button onClick={ this.zoomIn } className="control">Zoom in</button><br/> */}
-                        {/* <button onClick={ this.reCenter } className="control">Center</button><br/> */}
                         <button onClick={() => { console.log(this.mapRef.current.leafletElement.panTo(this.mapRef.current.leafletElement.options.center)) } } className="control">Center</button><br/>
                         <button onClick={ getDisruptions } className="control">Show Disruptions</button><br/>
                         <button onClick={ swapRouteType } className="control">Switch Transport Type &#8693;</button><br/>
@@ -341,11 +338,6 @@ export default class Map extends Component {
                         </div>
                         </div>
                     </Control>
-                    {/* { this.state.currentPos && <Marker position={this.state.currentPos} draggable={true}>
-                        <Popup position={this.state.currentPos}>
-                        Current location: <pre>{}</pre>
-                        </Popup>
-                    </Marker>} */}
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url='https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2lhdzk2IiwiYSI6ImNqdHRra3FuNDFjeW00MHBjMnNveGdha2QifQ.HK8K4aseYwzjdqAStXAyxg'
